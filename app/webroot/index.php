@@ -1,7 +1,6 @@
 <?php
 require_once '../vendor/autoload.php';
 
-// Paths to environment configuration files.  First one wins.
 try {
 	$config = getConfig('../.env');
 	$dbConn = connect($config);
@@ -22,8 +21,9 @@ print $date;
 function getConfig(string $path): array
 {
 	$result = (new josegonzalez\Dotenv\Loader($path))
-				  ->parse()
-				  ->toArray();
+				->parse()
+				->expect('DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS')
+				->toArray();
 
 	return $result;
 }
@@ -37,6 +37,10 @@ function getConfig(string $path): array
  */
 function connect(array $config)
 {
+	if (!function_exists('pg_connect')) {
+		throw new RuntimeException("pgsql extension is missing");
+	}
+
 	$connString = sprintf("host=%s dbname=%s user=%s password=%s",
 		$config['DB_HOST'],
 		$config['DB_NAME'],
