@@ -1,0 +1,5 @@
+# Treat composer phar as binary
+app/bin/composer binary
+
+# Treat *.PHP files as text with better diffs
+*.php text diff=php
