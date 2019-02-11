@@ -2,3 +2,6 @@
 ---
 - name: Base Setup
   hosts: localhost
+  roles:
+    - { role: geerlingguy.git }
+    - { role: geerlingguy.apache }
