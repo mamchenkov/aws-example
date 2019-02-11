@@ -119,3 +119,5 @@ Resources:
             # Install the rest
             cd /root
             /bin/git clone https://github.com/mamchenkov/aws-example.git
+            cd aws-example/ansible
+            /bin/ansible-playbook base.yml
