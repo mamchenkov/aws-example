@@ -1,3 +1,13 @@
 ---
 ansible_connection: local
 
+remi_repo_enable: "remi-php71"
+php_enablerepo: "remi-php71"
+
+php_packages_extra:
+  - php-cli
+  - php-gd
+  - php-mbstring
+  - php-pdo
+  - php-pgsql
+
