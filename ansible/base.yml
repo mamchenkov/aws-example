@@ -1,0 +1,4 @@
+# Base server provisioning playbook
+---
+- name: Base Setup
+  hosts: localhost
