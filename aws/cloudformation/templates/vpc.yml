@@ -61,10 +61,18 @@ Resources:
         FromPort: 80
         ToPort: 80
         CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 443
+        ToPort: 443
+        CidrIp: 0.0.0.0/0
       SecurityGroupEgress:
       - IpProtocol: tcp
         FromPort: 80
         ToPort: 80
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 443
+        ToPort: 443
         CidrIp: 0.0.0.0/0
   SSHSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -107,6 +115,7 @@ Resources:
             # Disable SELinux
             /sbin/setenforce 0
             # Install bare minimum
-            yum install -y httpd php php-cli php-pgsql git
-            # Start web server
-            /sbin/service httpd start
+            /bin/yum install -y git ansible
+            # Install the rest
+            cd /root
+            /bin/git clone https://github.com/mamchenkov/aws-example.git
