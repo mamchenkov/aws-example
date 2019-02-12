@@ -9,6 +9,25 @@ Parameters:
     Description: Enter the type of the EC2 instance to use for web servers
     Type: String
     Default: "t2.micro"
+  DBInstanceType:
+    Description: Enter the type of the RDS instance to use for database servers
+    Type: String
+    Default: "db.t2.micro"
+  DBName:
+    Description: Enter the name of the database to create for the application
+    Type: String
+    Default: "app"
+    MinLength: 1
+  DBUser:
+    Description: Enter the name of the user to create for the application
+    Type: String
+    Default: "app"
+    MinLength: 1
+  DBPass:
+    Description: Enter the password of the user to create for the application
+    Type: String
+    Default: "app12345678"
+    MinLength: 8
 Resources:
   VPC:
     Type: AWS::EC2::VPC
@@ -92,10 +111,10 @@ Resources:
       AllocatedStorage: 10
       AvailabilityZone: "eu-west-1a"
       Engine: "postgres"
-      DBInstanceClass: "db.t2.micro"
-      DBName: "app"
-      MasterUsername: "leonid"
-      MasterUserPassword: "leonid1234"
+      DBInstanceClass: !Ref DBInstanceType
+      DBName: !Ref DBName
+      MasterUsername: !Ref DBUser
+      MasterUserPassword: !Ref DBPass
       DBSubnetGroupName: !Ref DBSubnetGroup
       VPCSecurityGroups:
         - !Ref DBSecurityGroup
@@ -163,6 +182,7 @@ Resources:
       - WebSecurityGroup
       - SSHSecurityGroup
       - DBSecurityGroup
+      - RDSDB
     Properties:
       AvailabilityZone: "eu-west-1a"
       KeyName: !Ref EC2KeyName
@@ -189,4 +209,4 @@ Resources:
             cd /root
             /bin/git clone https://github.com/mamchenkov/aws-example.git
             cd aws-example/ansible
-            /bin/ansible-playbook base.yml > last.log 2> last.error.log
+            /bin/ansible-playbook base.yml --extra-vars "dbname=${DBName} dbhost=${DBName} dbuser=${DBUser} dbpass=${DBPass}" > last.log 2> last.error.log
