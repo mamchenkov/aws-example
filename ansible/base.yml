@@ -28,7 +28,7 @@
       lineinfile:
         path: /var/www/aws-example/app/.env
         regexp: '^DB_HOST='
-        line: "DB_HOST={{dbname}}"
+        line: "DB_HOST={{dbhost}}"
         state: present
       when: dbhost is defined
     - name: Set DB_NAME in .env file
