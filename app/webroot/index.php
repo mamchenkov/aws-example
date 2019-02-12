@@ -10,7 +10,13 @@ try {
 	die("Things went wrong: " . $e->getMessage());
 }
 
-print $date;
+echo '<html>';
+echo '<body>';
+echo 'DB Server Time: ' . $date;
+echo '<hr />';
+echo '<address>Hostname: ' . php_uname('n') . '</address>';
+echo '</body>';
+echo '</html>';
 
 /**
  * Read configuration file and return as array
