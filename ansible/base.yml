@@ -15,7 +15,7 @@
         version: master
         dest: /var/www/aws-example
     - name: Install composer dependencies
-      command: ./bin/composer install
+      shell: ./bin/composer install
       args:
         chdir: /var/www/aws-example/app
     - name: Create .env file
