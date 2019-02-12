@@ -212,3 +212,41 @@ Resources:
                 cd aws-example/ansible
                 /bin/ansible-playbook base.yml --extra-vars "dbname=${DBName} dbhost=${DBHost} dbuser=${DBUser} dbpass=${DBPass}" > last.log 2> last.error.log
             - { DBHost: !GetAtt RDSDB.Endpoint.Address, DBName: !Ref DBName, DBUser: !Ref DBUser, DBPass: !Ref DBPass }
+
+  WebServer2:
+    Type: AWS::EC2::Instance
+    DependsOn:
+      - Subnet2
+      - WebSecurityGroup
+      - SSHSecurityGroup
+      - DBSecurityGroup
+      - RDSDB
+    Properties:
+      AvailabilityZone: "eu-west-1b"
+      KeyName: !Ref EC2KeyName
+      ImageId: "ami-0ff760d16d9497662"
+      InstanceInitiatedShutdownBehavior: "stop"
+      InstanceType: !Ref EC2InstanceType
+      SubnetId: !Ref Subnet2
+      SecurityGroupIds:
+        - !Ref WebSecurityGroup
+        - !Ref SSHSecurityGroup
+        - !Ref DBSecurityGroup
+      Tags:
+        - Key: name
+          Value: test
+      UserData:
+        Fn::Base64:
+          !Sub
+            - |
+                #!/bin/bash -xe
+                # Disable SELinux
+                /sbin/setenforce 0
+                # Install bare minimum
+                /bin/yum install -y git ansible
+                # Install the rest
+                cd /root
+                /bin/git clone https://github.com/mamchenkov/aws-example.git
+                cd aws-example/ansible
+                /bin/ansible-playbook base.yml --extra-vars "dbname=${DBName} dbhost=${DBHost} dbuser=${DBUser} dbpass=${DBPass}" > last.log 2> last.error.log
+            - { DBHost: !GetAtt RDSDB.Endpoint.Address, DBName: !Ref DBName, DBUser: !Ref DBUser, DBPass: !Ref DBPass }
