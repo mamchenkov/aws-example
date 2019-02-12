@@ -209,4 +209,4 @@ Resources:
             cd /root
             /bin/git clone https://github.com/mamchenkov/aws-example.git
             cd aws-example/ansible
-            /bin/ansible-playbook base.yml --extra-vars "dbname=${DBName} dbhost=${DBName} dbuser=${DBUser} dbpass=${DBPass}" > last.log 2> last.error.log
+            /bin/ansible-playbook base.yml --extra-vars "dbname=${!Ref DBName} dbhost=${!Ref DBName} dbuser=${!Ref DBUser} dbpass=${!Ref DBPass}" > last.log 2> last.error.log
