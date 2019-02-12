@@ -250,3 +250,29 @@ Resources:
                 cd aws-example/ansible
                 /bin/ansible-playbook base.yml --extra-vars "dbname=${DBName} dbhost=${DBHost} dbuser=${DBUser} dbpass=${DBPass}" > last.log 2> last.error.log
             - { DBHost: !GetAtt RDSDB.Endpoint.Address, DBName: !Ref DBName, DBUser: !Ref DBUser, DBPass: !Ref DBPass }
+
+  LoadBalancer:
+    Type: AWS::ElasticLoadBalancing::LoadBalancer
+    Properties:
+      Scheme: "internet-facing"
+      SecurityGroups:
+        - !Ref WebSecurityGroup
+      Subnets:
+      - !Ref Subnet1
+      - !Ref Subnet2
+      Instances:
+      - !Ref WebServer1
+      - !Ref WebServer2
+      Listeners:
+      - LoadBalancerPort: '80'
+        InstancePort: '80'
+        Protocol: HTTP
+      HealthCheck:
+        Target: HTTP:80/
+        HealthyThreshold: '3'
+        UnhealthyThreshold: '5'
+        Interval: '30'
+        Timeout: '5'
+      Tags:
+        - Key: Name
+          Value: test
