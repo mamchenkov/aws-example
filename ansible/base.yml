@@ -18,6 +18,8 @@
       shell: ./bin/composer install
       args:
         chdir: /var/www/aws-example/app
+      environment:
+        HOME: "/root"
     - name: Create .env file
       copy:
         src: /var/www/aws-example/app/.env.example
