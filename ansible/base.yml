@@ -24,6 +24,34 @@
       copy:
         src: /var/www/aws-example/app/.env.example
         dest: /var/www/aws-example/app/.env
+    - name: Set DB_HOST in .env file
+      lineinfile:
+        path: /var/www/aws-example/app/.env
+        regexp: '^DB_HOST='
+        line: "DB_HOST={{dbname}}"
+        state: present
+      when: dbhost is defined
+    - name: Set DB_NAME in .env file
+      lineinfile:
+        path: /var/www/aws-example/app/.env
+        regexp: '^DB_NAME='
+        line: "DB_NAME={{dbname}}"
+        state: present
+      when: dbname is defined
+    - name: Set DB_USER in .env file
+      lineinfile:
+        path: /var/www/aws-example/app/.env
+        regexp: '^DB_USER='
+        line: "DB_USER={{dbuser}}"
+        state: present
+      when: dbuser is defined
+    - name: Set DB_PASS in .env file
+      lineinfile:
+        path: /var/www/aws-example/app/.env
+        regexp: '^DB_PASS='
+        line: "DB_PASS={{dbpass}}"
+        state: present
+      when: dbpass is defined
     - name: Remove /var/www/html directory
       file:
         state: absent
