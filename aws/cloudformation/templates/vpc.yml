@@ -1,5 +1,14 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Test VPC Setup
+Parameters:
+  EC2KeyName:
+    Description: Enter the name of the EC2 key pair for SSH access
+    Type: "AWS::EC2::KeyPair::KeyName"
+    Default: "cloudformation"
+  EC2InstanceType:
+    Description: Enter the type of the EC2 instance to use for web servers
+    Type: String
+    Default: "t2.micro"
 Resources:
   VPC:
     Type: AWS::EC2::VPC
@@ -156,10 +165,10 @@ Resources:
       - DBSecurityGroup
     Properties:
       AvailabilityZone: "eu-west-1a"
-      KeyName: "cloudformation"
+      KeyName: !Ref EC2KeyName
       ImageId: "ami-0ff760d16d9497662"
       InstanceInitiatedShutdownBehavior: "stop"
-      InstanceType: "t2.micro"
+      InstanceType: !Ref EC2InstanceType
       SubnetId: !Ref Subnet1
       SecurityGroupIds:
         - !Ref WebSecurityGroup
@@ -180,4 +189,4 @@ Resources:
             cd /root
             /bin/git clone https://github.com/mamchenkov/aws-example.git
             cd aws-example/ansible
-            /bin/ansible-playbook base.yml
+            /bin/ansible-playbook base.yml > last.log 2> last.error.log
