@@ -267,6 +267,11 @@ Resources:
       - LoadBalancerPort: '80'
         InstancePort: '80'
         Protocol: HTTP
+        PolicyNames:
+        - "AppCookiePolicy"
+      AppCookieStickinessPolicy:
+        - CookieName: "PHPSESSID"
+          PolicyName: "AppCookiePolicy"
       HealthCheck:
         Target: HTTP:80/
         HealthyThreshold: '3'
