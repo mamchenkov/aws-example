@@ -276,3 +276,19 @@ Resources:
       Tags:
         - Key: Name
           Value: test
+Outputs:
+  LBUrl:
+    Description: Application URL via load balancer
+    Value: !Join [ "", [ "http://", !GetAtt LoadBalancer.DNSName] ]
+  WebServer1Url:
+    Description: Application URL directly on WebServer1
+    Value: !Join [ "", [ "http://", !GetAtt WebServer1.PublicIp] ]
+  WebServer1SSH:
+    Description: SSH access to WebServer1
+    Value: !Join [ "", [ "ssh centos@", !GetAtt WebServer1.PublicIp] ]
+  WebServer2Url:
+    Description: Application URL directly on WebServer2
+    Value: !Join [ "", [ "http://", !GetAtt WebServer2.PublicIp] ]
+  WebServer2SSH:
+    Description: SSH access to WebServer2
+    Value: !Join [ "", [ "ssh centos@", !GetAtt WebServer2.PublicIp] ]
