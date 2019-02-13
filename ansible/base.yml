@@ -24,6 +24,13 @@
       copy:
         src: /var/www/aws-example/app/.env.example
         dest: /var/www/aws-example/app/.env
+    - name: Set WEB_HOST in .env file
+      lineinfile:
+        path: /var/www/aws-example/app/.env
+        regexp: '^WEB_HOST='
+        line: "WEB_HOST={{webhost}}"
+        state: present
+      when: webhost is defined
     - name: Set DB_HOST in .env file
       lineinfile:
         path: /var/www/aws-example/app/.env
