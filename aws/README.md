@@ -8,6 +8,7 @@ creating and removing the Amazon AWS infrastructure.
 
 * `bin/aws.sh` - a simple Bash script wrapper for Amazon AWS command-line client
 * `cloudformation/templates/vpc.yml` - an Amazon CloudFormation template
+* `docs/` - documentation and screenshots
 
 ## Requirements
 
@@ -142,4 +143,15 @@ the deployment of the new stack.
 
 ![AWS : CloudFormation : Visual Designer](docs/10-aws-cloudformation-designer.png)
 
+## Result
 
+Once the new stack is successfully deployed, you can access the web application either
+via the load balancer:
+
+![AWS : CloudFormation : LoadBalancer](docs/11-aws-cloudformation-web-lb.png)
+
+Or via each of the web servers directly:
+
+![AWS : CloudFormation : WebServer1](docs/12-aws-cloudformation-web1.png)
+
+![AWS : CloudFormation : WebServer2](docs/13-aws-cloudformation-web2.png)
