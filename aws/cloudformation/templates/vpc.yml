@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Test VPC Setup
+Description: Example VPC setup with ELB, 2 x EC2, and RDS DB
 Parameters:
   EC2KeyName:
     Description: Enter the name of the EC2 key pair for SSH access
@@ -38,13 +38,13 @@ Resources:
       InstanceTenancy: "default"
       Tags:
         - Key: Name
-          Value: test
+          Value: example
   InternetGateway:
     Type: AWS::EC2::InternetGateway
     Properties:
       Tags:
         - Key: Name
-          Value: test
+          Value: example
   InternetGatewayAttachment:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties:
@@ -56,7 +56,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
       - Key: Name
-        Value: test
+        Value: example
   DefaultRoute:
     Type: AWS::EC2::Route
     DependsOn: InternetGatewayAttachment
@@ -73,7 +73,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: test
+          Value: example
   Subnet2:
     Type: AWS::EC2::Subnet
     Properties:
@@ -83,7 +83,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: test
+          Value: example
 
   Subnet1RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
@@ -98,16 +98,17 @@ Resources:
   DBSubnetGroup:
     Type: "AWS::RDS::DBSubnetGroup"
     Properties:
-      DBSubnetGroupDescription: "Test DB subnet group"
+      DBSubnetGroupDescription: "DB subnet group"
       SubnetIds:
         - !Ref Subnet1
         - !Ref Subnet2
       Tags:
         - Key: name
-          Value: test
+          Value: example
   RDSDB:
     Type: AWS::RDS::DBInstance
     Properties:
+      DBInstanceIdentifier: "RDSDB"
       AllocatedStorage: 10
       AvailabilityZone: "eu-west-1a"
       Engine: "postgres"
@@ -120,10 +121,11 @@ Resources:
         - !Ref DBSecurityGroup
       Tags:
         - Key: Name
-          Value: test
+          Value: example
   WebSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
+      GroupName: "WebSecurityGroup"
       GroupDescription: Web access security group
       VpcId: !Ref VPC
       SecurityGroupIngress:
@@ -147,6 +149,7 @@ Resources:
   SSHSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
+      GroupName: "SSHSecurityGroup"
       GroupDescription: SSH access security group
       VpcId: !Ref VPC
       SecurityGroupIngress:
@@ -162,6 +165,7 @@ Resources:
   DBSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
+      GroupName: "DBSecurityGroup"
       GroupDescription: DB access security group
       VpcId: !Ref VPC
       SecurityGroupIngress:
@@ -196,7 +200,7 @@ Resources:
         - !Ref DBSecurityGroup
       Tags:
         - Key: name
-          Value: test
+          Value: example
       UserData:
         Fn::Base64:
           !Sub
@@ -234,7 +238,7 @@ Resources:
         - !Ref DBSecurityGroup
       Tags:
         - Key: name
-          Value: test
+          Value: example
       UserData:
         Fn::Base64:
           !Sub
@@ -254,6 +258,7 @@ Resources:
   LoadBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:
+      LoadBalancerName: "LoadBalancer"
       Scheme: "internet-facing"
       SecurityGroups:
         - !Ref WebSecurityGroup
@@ -280,7 +285,7 @@ Resources:
         Timeout: '5'
       Tags:
         - Key: Name
-          Value: test
+          Value: example
 Outputs:
   LBUrl:
     Description: Application URL via load balancer
