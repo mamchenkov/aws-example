@@ -11,13 +11,38 @@ try {
 }
 
 session_start();
-echo '<html>';
-echo '<body>';
-echo 'DB Server Time: ' . $date;
-echo '<hr />';
-echo '<address>Hostname: ' . php_uname('n') . '</address>';
-echo '</body>';
-echo '</html>';
+
+echo <<<EOF
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+		<h1>Hello, world!</h1>
+		<p class="lead">DB Server Time: $date</p>
+		<hr />
+		<address>Hostname: {$config['WEB_HOST']} </address>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>
+  </body>
+</html>
+EOF;
 
 /**
  * Read configuration file and return as array
@@ -29,7 +54,7 @@ function getConfig(string $path): array
 {
 	$result = (new josegonzalez\Dotenv\Loader($path))
 				->parse()
-				->expect('DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS')
+				->expect('WEB_HOST', 'DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS')
 				->toArray();
 
 	return $result;
