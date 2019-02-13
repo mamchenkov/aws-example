@@ -210,8 +210,8 @@ Resources:
                 cd /root
                 /bin/git clone https://github.com/mamchenkov/aws-example.git
                 cd aws-example/ansible
-                /bin/ansible-playbook base.yml --extra-vars "dbname=${DBName} dbhost=${DBHost} dbuser=${DBUser} dbpass=${DBPass}" > last.log 2> last.error.log
-            - { DBHost: !GetAtt RDSDB.Endpoint.Address, DBName: !Ref DBName, DBUser: !Ref DBUser, DBPass: !Ref DBPass }
+                /bin/ansible-playbook base.yml --extra-vars "webhost=${WebHost} dbname=${DBName} dbhost=${DBHost} dbuser=${DBUser} dbpass=${DBPass}" > last.log 2> last.error.log
+            - { WebHost: "WebServer1", DBHost: !GetAtt RDSDB.Endpoint.Address, DBName: !Ref DBName, DBUser: !Ref DBUser, DBPass: !Ref DBPass }
 
   WebServer2:
     Type: AWS::EC2::Instance
@@ -248,8 +248,8 @@ Resources:
                 cd /root
                 /bin/git clone https://github.com/mamchenkov/aws-example.git
                 cd aws-example/ansible
-                /bin/ansible-playbook base.yml --extra-vars "dbname=${DBName} dbhost=${DBHost} dbuser=${DBUser} dbpass=${DBPass}" > last.log 2> last.error.log
-            - { DBHost: !GetAtt RDSDB.Endpoint.Address, DBName: !Ref DBName, DBUser: !Ref DBUser, DBPass: !Ref DBPass }
+                /bin/ansible-playbook base.yml --extra-vars "webhost=${WebHost} dbname=${DBName} dbhost=${DBHost} dbuser=${DBUser} dbpass=${DBPass}" > last.log 2> last.error.log
+            - { WebHost: "WebServer2", DBHost: !GetAtt RDSDB.Endpoint.Address, DBName: !Ref DBName, DBUser: !Ref DBUser, DBPass: !Ref DBPass }
 
   LoadBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
