@@ -10,6 +10,7 @@ try {
 	die("Things went wrong: " . $e->getMessage());
 }
 
+session_start();
 echo '<html>';
 echo '<body>';
 echo 'DB Server Time: ' . $date;
